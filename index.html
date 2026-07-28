@@ -34,6 +34,22 @@ body {
   z-index: -1;
   transition: background 0.1s linear;
   pointer-events: none;
+
+      background:
+
+        linear-gradient(
+
+            to bottom,
+
+            rgba(0,0,0,0) 45%,
+
+            rgba(0,0,0,.18) 65%,
+
+            rgba(0,0,0,.55) 82%,
+
+            rgba(0,0,0,.95) 100%
+
+        );
 }
 
 
@@ -317,23 +333,17 @@ body {
 }
 
 .bg-fixed{
-    animation:backgroundBreath 18s ease-in-out infinite;
-}
+    position: fixed;
+    inset: 0;
 
-@keyframes backgroundBreath{
+    background-image: url("img/artist.jpg");
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
 
-    0%{
-        transform:scale(1);
-    }
+    z-index: -2;
 
-    50%{
-        transform:scale(1.025);
-    }
-
-    100%{
-        transform:scale(1);
-    }
-
+    animation: backgroundBreath 18s ease-in-out infinite;
 }
 
 .arrow{
@@ -456,25 +466,18 @@ body {
 
 }
 .overlay{
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
 
-    animation:overlayIntro 2s forwards;
-
-}
-
-@keyframes overlayIntro{
-
-    from{
-
-        background:rgba(0,0,0,0);
-
-    }
-
-    to{
-
-        background:rgba(0,0,0,.15);
-
-    }
-
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0) 45%,
+        rgba(0,0,0,.2) 65%,
+        rgba(0,0,0,.55) 82%,
+        rgba(0,0,0,.95) 100%
+    );
 }
 .artist-name{
 
