@@ -251,13 +251,24 @@ a { text-decoration: none; color: inherit; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-  color: var(--text-dimmer);
-  animation: bob 2.2s ease-in-out infinite;
+  gap: 8px;
+
+  padding: 12px 20px;
+  border-radius: 999px;
+
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255,255,255,0.15);
+
+  color: rgba(255,255,255,0.9);
+
+  box-shadow:
+    0 0 25px rgba(255,255,255,0.08),
+    0 8px 30px rgba(0,0,0,0.35);
+
+  animation: bob 2s ease-in-out infinite;
 }
 
 .scroll-cue svg { width: 16px; height: 16px; }
@@ -430,5 +441,12 @@ a { text-decoration: none; color: inherit; }
 @media (min-width: 900px) {
   .bg-image {
     background-position: center 8%;
+  }
+}
+
+@media (hover:hover) {
+  .scroll-cue:hover {
+    transform: translateY(-3px);
+    background: rgba(255,255,255,0.12);
   }
 }
