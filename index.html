@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DEWNAPAT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: #000;
+  color: #fff;
+  overflow-x: hidden;
+}
+.bg-fixed {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-image: url('img/artist.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -2;
+}
+.overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.15);
+  z-index: -1;
+  transition: background 0.1s linear;
+  pointer-events: none;
+}
+
+
+.hero{
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+}
+
+
+.stream-label {
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 18px;
+}
+.artist-name {
+  font-size: clamp(38px, 8vw, 74px);
+  font-weight: 800;
+  letter-spacing: 1px;
+  line-height: 1.05;
+  margin-bottom: 10px;
+}
+
+
+
+
+.artist-subtitle {
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: rgba(255,255,255,0.55);
+}
+.scroll-hint {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  animation: floatHint 2.2s ease-in-out infinite;
+}
+@keyframes floatHint {
+  0%, 100% { transform: translate(-50%, 0); opacity: 0.4; }
+  50% { transform: translate(-50%, 6px); opacity: 0.8; }
+}
+
+
+.spacer{
+    height:22vh;
+}}
+
+
+
+.content-section{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.content-inner{
+    width:100%;
+    max-width:480px;
+    margin:0 auto;
+}
+.section-title {
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+.link-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px 24px;
+  background: #fff;
+  color: #000;
+  border-radius: 100px;
+  margin-bottom: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.2px;
+  transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+.link-btn:hover {
+  transform: translateY(-2px);
+  background: #f2f2f2;
+}
+.link-btn:active {
+  transform: scale(0.97);
+  background: #e6e6e6;
+}
+.link-btn .left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.link-btn .icon {
+  width: 22px;
+  text-align: center;
+  font-size: 18px;
+}
+.link-btn .arrow {
+  font-size: 14px;
+  color: rgba(0,0,0,0.4);
+  transition: transform 0.18s ease;
+}
+.link-btn:hover .arrow {
+  transform: translateX(3px);
+}
+.icon-spotify { color: #1DB954; }
+.icon-apple { color: #FA243C; }
+.icon-youtube { color: #FF0000; }
+.icon-instagram { color: #C13584; }
+.icon-tiktok { color: #000000; }
+.footer-note {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.3);
+}
+.menu-btn {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 100;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+.menu-btn:hover { background: rgba(255,255,255,0.2); }
+.menu-btn:active { transform: scale(0.93); }
+.menu-btn i { font-size: 16px; color: #fff; }
+.menu-popup {
+  position: fixed;
+  top: 76px;
+  right: 24px;
+  min-width: 190px;
+  background: rgba(20,20,20,0.55);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-8px) scale(0.98);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 100;
+}
+.menu-popup.open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.link-btn{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  width:100%;
+  padding:16px 24px;
+  background:#fff;
+  color:#000;
+  border-radius:100px;
+  margin-bottom:10px;
+  text-decoration:none;
+  font-weight:600;
+  font-size:15px;
+  letter-spacing:.2px;
+  box-shadow:0 8px 24px rgba(0,0,0,.25);
+
+  opacity:0;
+  transform:translateY(35px);
+  filter:blur(4px);
+
+  transition:
+    opacity .7s cubic-bezier(.22,1,.36,1),
+    transform .7s cubic-bezier(.22,1,.36,1),
+    filter .7s cubic-bezier(.22,1,.36,1),
+    box-shadow .2s ease;
+}
+
+.link-btn.show{
+  opacity:1;
+  transform:translateY(0);
+  filter:blur(0);
+}
+
+.link-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 14px 28px rgba(0,0,0,.28);
+}
+
+.link-btn:active{
+  transform:scale(.98);
+}
+
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.menu-item:hover { background: rgba(255,255,255,0.08); }
+.menu-item i { width: 16px; font-size: 14px; color: rgba(255,255,255,0.7); }
+.menu-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.1);
+}
+.toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(255,255,255,0.95);
+  color: #000;
+  padding: 12px 22px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 200;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+@media (max-width: 480px) {
+  .content-section { padding: 60px 20px 100px; }
+  .link-btn { padding: 16px 20px; }
+}
+
+.hero-content{
+    text-align:center;
+    opacity:0;
+    margin-top:460px;
+    animation:heroReveal 1s cubic-bezier(.22,1,.36,1) forwards;
+}
+
+@keyframes heroReveal {
+    from {
+        opacity: 0;
+        transform: translateY(-110px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(-130px);
+    }
+}
+
+.bg-fixed{
+    animation:backgroundBreath 18s ease-in-out infinite;
+}
+
+@keyframes backgroundBreath{
+
+    0%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.025);
+    }
+
+    100%{
+        transform:scale(1);
+    }
+
+}
+
+.arrow{
+
+    animation:arrowFloat 2.5s ease-in-out infinite;
+
+}
+
+@keyframes arrowFloat{
+
+    0%,100%{
+
+        transform:translateX(0);
+
+    }
+
+    50%{
+
+        transform:translateX(4px);
+
+    }
+
+}
+
+.icon{
+
+    animation:iconFloat 4s ease-in-out infinite;
+
+}
+
+@keyframes iconFloat{
+
+    0%,100%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-2px);
+
+    }
+
+}
+
+.menu-btn{
+
+    animation:menuPulse 4s ease-in-out infinite;
+
+}
+
+@keyframes menuPulse{
+
+    0%,100%{
+
+        transform:scale(1);
+
+    }
+
+    50%{
+
+        transform:scale(1.05);
+
+    }
+
+}
+.stream-label{
+    opacity:0;
+    transform:translateY(15px);
+    animation:fadeUp .8s .3s forwards;
+}
+
+.artist-name{
+    opacity:0;
+    transform:translateY(20px);
+    animation:fadeUp 1s .5s forwards;
+}
+
+.artist-subtitle{
+    opacity:0;
+    transform:translateY(15px);
+    animation:fadeUp .8s .8s forwards;
+}
+
+.scroll-hint{
+    opacity:0;
+    animation:fadeIn 1s 1.2s forwards;
+}
+
+@keyframes fadeUp{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes fadeIn{
+    to{
+        opacity:.45;
+    }
+}
+
+.bg-fixed{
+
+    transform:scale(1.08);
+
+    animation:introZoom 2.2s ease forwards,
+              backgroundBreath 18s ease-in-out infinite 2.2s;
+
+}
+
+@keyframes introZoom{
+
+    to{
+
+        transform:scale(1);
+
+    }
+
+}
+.overlay{
+
+    animation:overlayIntro 2s forwards;
+
+}
+
+@keyframes overlayIntro{
+
+    from{
+
+        background:rgba(0,0,0,0);
+
+    }
+
+    to{
+
+        background:rgba(0,0,0,.15);
+
+    }
+
+}
+.artist-name{
+
+    animation:
+        fadeUp 1s .5s forwards,
+        titleGlow 1.5s .5s;
+
+}
+
+@keyframes titleGlow{
+
+    0%{
+
+        text-shadow:0 0 25px rgba(255,255,255,.4);
+
+    }
+
+    100%{
+
+        text-shadow:none;
+
+    }
+
+}
+.menu-btn{
+
+    opacity:0;
+
+    transform:scale(.6) rotate(-30deg);
+
+    animation:menuIn .8s 1s forwards;
+
+}
+
+@keyframes menuIn{
+
+    to{
+
+        opacity:1;
+
+        transform:scale(1) rotate(0);
+
+    }
+
+}
+
+.bg-fixed{
+
+    filter:blur(8px);
+
+    animation:bgFocus 1.8s ease forwards;
+
+}
+
+@keyframes bgFocus{
+
+    to{
+
+        filter:blur(0);
+
+    }
+
+}
+.overlay{
+
+background:
+radial-gradient(circle,
+rgba(0,0,0,.05) 10%,
+rgba(0,0,0,.65) 100%);
+
+}
+Background
+
+↓
+
+DEWNAPAT
+
+↓
+
+Buttons
+
+@keyframes pop{
+
+0%{
+
+transform:translateY(35px) scale(.95);
+
+}
+
+70%{
+
+transform:translateY(-2px) scale(1.03);
+
+}
+
+100%{
+
+transform:translateY(0) scale(1);
+
+}
+
+}
+.link-btn{
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.link-btn::before{
+
+content:"";
+
+position:absolute;
+
+top:0;
+
+left:-120%;
+
+width:50%;
+
+height:100%;
+
+background:
+linear-gradient(
+90deg,
+transparent,
+rgba(255,255,255,.35),
+transparent);
+
+transition:.8s;
+
+}
+
+.link-btn:hover::before{
+
+left:160%;
+
+}
+
+
+@keyframes titleFloat{
+
+0%,100%{
+
+transform:translateY(0);
+
+}
+
+50%{
+
+transform:translateY(-3px);
+
+}
+
+}
+
+.hero{
+
+animation:
+heroAmbient 18s ease-in-out infinite;
+
+}
+
+@keyframes heroAmbient{
+
+0%,100%{
+
+transform:translateY(0);
+
+}
+
+50%{
+
+transform:translateY(-4px);
+
+}
+
+}
+@media (min-width: 1024px){
+
+    .hero-content{
+        margin-top: 90vh;
+    }
+
+    .spacer{
+        height: 45vh;
+    }
+
+    .content-inner{
+        max-width: 650px;
+    }
+
+    .bg-fixed{
+
+        background-position: center 40px;
+
+}
+
+}
+
+
+</style>
+</head>
+<body>
+
+<div class="bg-fixed"></div>
+<div class="overlay" id="overlay"></div>
+
+<div class="menu-btn" id="menuBtn"><i class="fa-solid fa-ellipsis"></i></div>
+<div class="menu-popup" id="menuPopup">
+  <div class="menu-item" id="copyLinkBtn"><i class="fa-solid fa-link"></i>Copy Link</div>
+  <div class="menu-divider"></div>
+  <div class="menu-item" id="shareBtn"><i class="fa-solid fa-share-nodes"></i>Share</div>
+</div>
+
+<div class="hero">
+  <div class="hero-content">
+    <div class="stream-label">Stream on</div>
+   
+ <div class="artist-name">DEWNAPAT</div>
+
+
+    <div class="artist-subtitle">Artist</div>
+  </div>
+  <div class="scroll-hint">Scroll</div>
+</div>
+
+<div class="spacer"></div>
+
+<div class="content-section">
+  <div class="content-inner">
+    <div class="section-title">Listen &amp; Follow</div>
+
+<a href="https://youtu.be/L5-_z0ckJXI?si=MERo5aob0mxAkC2S" class="link-btn" target="_blank" rel="noopener noreferrer">
+  <div class="left">
+    <span class="icon icon-youtube">
+      <i class="fa-brands fa-youtube"></i>
+    </span>
+    <span>Listen on YouTube</span>
+  </div>
+  <i class="fa-solid fa-arrow-right arrow"></i>
+</a>
+
+<a href="https://open.spotify.com/track/6LRAzREyXZqiXN6sk1Vxnr?si=QmZJQtolQgeeB9-UNTXIdw&utm_source=copy-link" class="link-btn" target="_blank" rel="noopener noreferrer">
+  <div class="left">
+    <span class="icon icon-spotify">
+      <i class="fa-brands fa-spotify"></i>
+    </span>
+    <span>Stream on Spotify</span>
+  </div>
+  <i class="fa-solid fa-arrow-right arrow"></i>
+</a>
+
+<a href="https://music.apple.com/th/album/%E0%B8%96-%E0%B8%B2%E0%B8%A3-%E0%B8%A7-%E0%B8%B2%E0%B9%80%E0%B8%9B-%E0%B8%99%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B8%99-too-late/6792824307?i=6792824319&l=th" class="link-btn" target="_blank" rel="noopener noreferrer">
+  <div class="left">
+    <span class="icon icon-apple">
+      <i class="fa-brands fa-apple"></i>
+    </span>
+    <span>Stream on Apple Music</span>
+  </div>
+  <i class="fa-solid fa-arrow-right arrow"></i>
+</a>
+
+<a href="https://www.instagram.com/dewnapattt?igsh=Znd2MWc1bTNxNTFt" class="link-btn" target="_blank" rel="noopener noreferrer">
+  <div class="left">
+    <span class="icon icon-instagram">
+      <i class="fa-brands fa-instagram"></i>
+    </span>
+    <span>Follow on Instagram</span>
+  </div>
+  <i class="fa-solid fa-arrow-right arrow"></i>
+</a>
+
+<a href="https://www.tiktok.com/@dewnapattt?_r=1&_t=ZS-98M0RxZBrGf" class="link-btn" target="_blank" rel="noopener noreferrer">
+  <div class="left">
+    <span class="icon icon-tiktok">
+      <i class="fa-brands fa-tiktok"></i>
+    </span>
+    <span>Follow on TikTok</span>
+  </div>
+  <i class="fa-solid fa-arrow-right arrow"></i>
+</a>
+ 
+
+    <div class="footer-note">© 2026 DEWNAPAT. All rights reserved.</div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Link copied</div>
+
+<script>
+const overlay = document.getElementById('overlay');
+let ticking = false;
+
+function updateOverlay() {
+  const scrollY = window.scrollY;
+  const maxScroll = window.innerHeight * 1.1;
+  const progress = Math.min(scrollY / maxScroll, 1);
+  const opacity = 0.15 + progress * 0.75;
+  overlay.style.background = 'rgba(0,0,0,' + opacity + ')';
+  ticking = false;
+}
+
+window.addEventListener('scroll', () => {
+  if (!ticking) {
+    requestAnimationFrame(updateOverlay);
+    ticking = true;
+  }
+});
+
+updateOverlay();
+
+const menuBtn = document.getElementById('menuBtn');
+const menuPopup = document.getElementById('menuPopup');
+const toast = document.getElementById('toast');
+
+menuBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  menuPopup.classList.toggle('open');
+});
+
+document.addEventListener('click', (e) => {
+  if (!menuPopup.contains(e.target) && e.target !== menuBtn) {
+    menuPopup.classList.remove('open');
+  }
+});
+
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1800);
+}
+
+document.getElementById('copyLinkBtn').addEventListener('click', () => {
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    showToast('Link copied');
+  }).catch(() => {
+    showToast('Unable to copy');
+  });
+  menuPopup.classList.remove('open');
+});
+
+document.getElementById('shareBtn').addEventListener('click', () => {
+  if (navigator.share) {
+    navigator.share({ title: document.title, url: window.location.href }).catch(() => {});
+  } else {
+    navigator.clipboard.writeText(window.location.href).then(() => showToast('Link copied'));
+  }
+  menuPopup.classList.remove('open');
+});
+
+const cards = document.querySelectorAll(".link-btn");
+
+const observer = new IntersectionObserver((entries) => {
+
+    entries.forEach(entry => {
+
+        if(entry.isIntersecting){
+
+            const delay = [...cards].indexOf(entry.target) * 120;
+
+            setTimeout(() => {
+                entry.target.classList.add("show");
+            }, delay);
+
+            observer.unobserve(entry.target);
+
+        }
+
+    });
+
+},{
+    threshold:0.2
+});
+
+cards.forEach(card => observer.observe(card));
+</script>
+
+</body>
+</html>
