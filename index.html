@@ -7,22 +7,44 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<style>* { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { height: 100%; }
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  height: 100%;
+  background: #000;
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
+  height: 100%;
+  min-height: 100%;
   font-family: 'Inter', sans-serif;
   background: #000;
   color: #fff;
   overflow-x: hidden;
 }
 
-
+/* ==========================================================
+   FIXED BACKGROUND IMAGE
+   - top/left/right anchored + explicit height (no `inset`)
+     so height is never over-constrained by opposing edges.
+   - Triple height fallback: 100vh (universal) -> custom
+     `--vh` property (older iOS Safari, no dvh support) ->
+     100dvh (modern browsers, tracks the URL bar live).
+     Unsupported values are ignored by the browser, so this
+     cascades safely and removes the load-time black bar
+     caused by the URL bar's height being measured late.
+   ========================================================== */
 .bg-fixed {
   position: fixed;
-  inset: 0;
-  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
   height: 100dvh;
-  min-height: 100vh;
+  background-color: #000;
   background-image: url('img/artist.jpg');
   background-size: cover;
   background-position: center top;
@@ -30,11 +52,49 @@ body {
   z-index: -2;
   transform: scale(1.4) translateZ(0);
   -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   filter: blur(8px);
+  will-change: transform, filter;
   animation:
     introZoom 2.2s ease forwards,
     bgFocus 1.8s ease forwards,
     backgroundBreath 18s ease-in-out infinite 2.2s;
+}
+
+/* Ends exactly at scale(1.15) so the handoff to
+   backgroundBreath (which starts at the same scale) is seamless */
+@keyframes introZoom {
+  to { transform: scale(1.15) translateZ(0); }
+}
+
+@keyframes bgFocus {
+  to { filter: blur(0); }
+}
+
+@keyframes backgroundBreath {
+  0%, 100% { transform: scale(1.15) translateZ(0); }
+  50%      { transform: scale(1.2) translateZ(0); }
+}
+
+/* ==========================================================
+   BOTTOM CINEMATIC FADE
+   Sits between the background image (z-index -2) and the
+   content (normal stacking). Always visible: transparent at
+   the top, dark at the bottom. Darkens slightly on scroll but
+   is capped below full opacity in updateOverlay() below.
+   ========================================================== */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0) 0%,
+    rgba(0,0,0,0.05) 35%,
+    rgba(0,0,0,0.22) 65%,
+    rgba(0,0,0,0.55) 100%
+  );
 }
 
 .hero {
@@ -44,6 +104,11 @@ body {
   align-items: flex-start;
   min-height: 100svh;
   animation: heroAmbient 18s ease-in-out infinite;
+}
+
+@keyframes heroAmbient {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
 }
 
 .hero-content {
@@ -133,6 +198,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 40px 20px 100px;
 }
 
 .content-inner {
@@ -151,7 +217,6 @@ body {
   font-weight: 500;
 }
 
-/* Consolidated .link-btn — merged base styles + shimmer + reveal-on-scroll */
 .link-btn {
   position: relative;
   overflow: hidden;
@@ -359,31 +424,7 @@ body {
   transform: translateX(-50%) translateY(0);
 }
 
-@keyframes introZoom {
-  to { transform: scale(1.15); }
-}
-
-@keyframes bgFocus {
-  to { filter: blur(0); }
-}
-
-.overlay{
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-
-    background: linear-gradient(
-        to bottom,
-        rgba(0,0,0,0) 40%,
-        rgba(0,0,0,0.10) 60%,
-        rgba(0,0,0,0.35) 80%,
-        rgba(0,0,0,0.75) 100%
-    );
-}
-
 @media (max-width: 480px) {
-  .content-section { padding: 60px 20px 100px; }
   .link-btn { padding: 16px 20px; }
 }
 
@@ -394,7 +435,21 @@ body {
   .bg-fixed { background-position: center 40px; }
 }
 
-
+@media (prefers-reduced-motion: reduce) {
+  .bg-fixed,
+  .hero,
+  .hero-content,
+  .stream-label,
+  .artist-name,
+  .artist-subtitle,
+  .scroll-hint,
+  .link-btn .icon,
+  .link-btn .arrow,
+  .menu-btn {
+    animation: none !important;
+  }
+  .bg-fixed { transform: scale(1.02); filter: blur(0); }
+}
 </style>
 </head>
 <body>
@@ -412,10 +467,7 @@ body {
 <div class="hero">
   <div class="hero-content">
     <div class="stream-label">Stream on</div>
-   
- <div class="artist-name">DEWNAPAT</div>
-
-
+    <div class="artist-name">DEWNAPAT</div>
     <div class="artist-subtitle">Artist</div>
   </div>
   <div class="scroll-hint">Scroll</div>
@@ -476,7 +528,6 @@ body {
   </div>
   <i class="fa-solid fa-arrow-right arrow"></i>
 </a>
- 
 
     <div class="footer-note">© 2026 DEWNAPAT. All rights reserved.</div>
   </div>
@@ -485,27 +536,51 @@ body {
 <div class="toast" id="toast">Link copied</div>
 
 <script>
+/* ------------------------------------------------------------
+   iOS SAFARI VIEWPORT-HEIGHT FIX
+   Safari's address bar resizes the viewport after first paint,
+   and on older iOS versions `dvh` isn't supported at all. We
+   measure the real visible height in JS and expose it as a CSS
+   custom property (--vh) that .bg-fixed's height fallback chain
+   reads. This runs before layout settles, which is what
+   eliminates the transient black bar at the top on load.
+------------------------------------------------------------ */
+function setViewportHeightVar() {
+  const vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+setViewportHeightVar();
+window.addEventListener('resize', setViewportHeightVar);
+window.addEventListener('orientationchange', setViewportHeightVar);
+
+/* ------------------------------------------------------------
+   BOTTOM FADE OVERLAY
+   Always transparent at the top, always visibly dark at the
+   bottom. Scrolling deepens the fade slightly but it is capped
+   at OVERLAY_MAX so it can never become a solid black screen.
+------------------------------------------------------------ */
 const overlay = document.getElementById('overlay');
+const OVERLAY_BASE = 0.55; // bottom darkness at rest (scrollY = 0)
+const OVERLAY_MAX  = 0.88; // hard cap — never fully opaque
 let ticking = false;
 
 function updateOverlay() {
   const scrollY = window.scrollY;
   const maxScroll = window.innerHeight * 1.1;
   const progress = Math.min(scrollY / maxScroll, 1);
-  const opacity = 0.15 + progress * 0.75;
+  const bottom = OVERLAY_BASE + progress * (OVERLAY_MAX - OVERLAY_BASE);
 
-overlay.style.background = `
-linear-gradient(
+  overlay.style.background = `linear-gradient(
     to bottom,
-    rgba(0,0,0,0) 40%,
-    rgba(0,0,0,${opacity * 0.15}) 60%,
-    rgba(0,0,0,${opacity * 0.40}) 80%,
-    rgba(0,0,0,${opacity * 0.85}) 100%
-)
-`;
+    rgba(0,0,0,0) 0%,
+    rgba(0,0,0,${(bottom * 0.09).toFixed(3)}) 35%,
+    rgba(0,0,0,${(bottom * 0.4).toFixed(3)}) 65%,
+    rgba(0,0,0,${bottom.toFixed(3)}) 100%
+  )`;
 
   ticking = false;
 }
+
 window.addEventListener('scroll', () => {
   if (!ticking) {
     requestAnimationFrame(updateOverlay);
@@ -515,6 +590,9 @@ window.addEventListener('scroll', () => {
 
 updateOverlay();
 
+/* ------------------------------------------------------------
+   MENU POPUP
+------------------------------------------------------------ */
 const menuBtn = document.getElementById('menuBtn');
 const menuPopup = document.getElementById('menuPopup');
 const toast = document.getElementById('toast');
@@ -554,29 +632,22 @@ document.getElementById('shareBtn').addEventListener('click', () => {
   menuPopup.classList.remove('open');
 });
 
+/* ------------------------------------------------------------
+   BUTTON REVEAL-ON-SCROLL
+------------------------------------------------------------ */
 const cards = document.querySelectorAll(".link-btn");
 
 const observer = new IntersectionObserver((entries) => {
-
-    entries.forEach(entry => {
-
-        if(entry.isIntersecting){
-
-            const delay = [...cards].indexOf(entry.target) * 120;
-
-            setTimeout(() => {
-                entry.target.classList.add("show");
-            }, delay);
-
-            observer.unobserve(entry.target);
-
-        }
-
-    });
-
-},{
-    threshold:0.2
-});
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const delay = [...cards].indexOf(entry.target) * 120;
+      setTimeout(() => {
+        entry.target.classList.add("show");
+      }, delay);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.2 });
 
 cards.forEach(card => observer.observe(card));
 </script>
