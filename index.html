@@ -16,8 +16,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Consolidated .bg-fixed — was previously declared 4 separate times,
-   which caused later rules to silently override earlier ones */
+
 .bg-fixed {
   position: fixed;
   inset: 0;
@@ -29,7 +28,7 @@ body {
   background-position: center top;
   background-repeat: no-repeat;
   z-index: -2;
-  transform: scale(1.2) translateZ(0);
+  transform: scale(1.4) translateZ(0);
   -webkit-backface-visibility: hidden;
   filter: blur(8px);
   animation:
@@ -361,15 +360,13 @@ body {
 }
 
 @keyframes introZoom {
-  to { transform: scale(1); }
+  to { transform: scale(1.2); }
 }
 
 @keyframes bgFocus {
   to { filter: blur(0); }
 }
 
-/* Fixed .overlay — previously had no position/size, so it rendered
-   as an empty 0-height element and the fade never actually showed */
 .overlay {
   position: fixed;
   inset: 0;
