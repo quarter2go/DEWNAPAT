@@ -367,11 +367,19 @@ body {
   to { filter: blur(0); }
 }
 
-.overlay {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
+.overlay{
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0) 40%,
+        rgba(0,0,0,0.10) 60%,
+        rgba(0,0,0,0.35) 80%,
+        rgba(0,0,0,0.75) 100%
+    );
 }
 
 @media (max-width: 480px) {
@@ -488,11 +496,11 @@ function updateOverlay() {
 
 overlay.style.background = `
 linear-gradient(
-  to bottom,
-  rgba(0,0,0,0) 40%,
-  rgba(0,0,0,${opacity * 0.20}) 60%,
-  rgba(0,0,0,${opacity * 0.45}) 80%,
-  rgba(0,0,0,${opacity * 0.75}) 100%
+    to bottom,
+    rgba(0,0,0,0) 40%,
+    rgba(0,0,0,${opacity * 0.15}) 60%,
+    rgba(0,0,0,${opacity * 0.40}) 80%,
+    rgba(0,0,0,${opacity * 0.85}) 100%
 )
 `;
 
