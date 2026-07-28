@@ -25,17 +25,7 @@ body {
   overflow-x: hidden;
 }
 
-/* ==========================================================
-   FIXED BACKGROUND IMAGE
-   - top/left/right anchored + explicit height (no `inset`)
-     so height is never over-constrained by opposing edges.
-   - Triple height fallback: 100vh (universal) -> custom
-     `--vh` property (older iOS Safari, no dvh support) ->
-     100dvh (modern browsers, tracks the URL bar live).
-     Unsupported values are ignored by the browser, so this
-     cascades safely and removes the load-time black bar
-     caused by the URL bar's height being measured late.
-   ========================================================== */
+
 .bg-fixed {
   position: fixed;
   top: 0;
@@ -61,8 +51,7 @@ body {
     backgroundBreath 18s ease-in-out infinite 2.2s;
 }
 
-/* Ends exactly at scale(1.15) so the handoff to
-   backgroundBreath (which starts at the same scale) is seamless */
+
 @keyframes introZoom {
   to { transform: scale(1.15) translateZ(0); }
 }
@@ -76,13 +65,6 @@ body {
   50%      { transform: scale(1.2) translateZ(0); }
 }
 
-/* ==========================================================
-   BOTTOM CINEMATIC FADE
-   Sits between the background image (z-index -2) and the
-   content (normal stacking). Always visible: transparent at
-   the top, dark at the bottom. Darkens slightly on scroll but
-   is capped below full opacity in updateOverlay() below.
-   ========================================================== */
 .overlay {
   position: fixed;
   inset: 0;
@@ -536,15 +518,6 @@ body {
 <div class="toast" id="toast">Link copied</div>
 
 <script>
-/* ------------------------------------------------------------
-   iOS SAFARI VIEWPORT-HEIGHT FIX
-   Safari's address bar resizes the viewport after first paint,
-   and on older iOS versions `dvh` isn't supported at all. We
-   measure the real visible height in JS and expose it as a CSS
-   custom property (--vh) that .bg-fixed's height fallback chain
-   reads. This runs before layout settles, which is what
-   eliminates the transient black bar at the top on load.
------------------------------------------------------------- */
 function setViewportHeightVar() {
   const vh = window.innerHeight * 0.01;
   document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -553,15 +526,9 @@ setViewportHeightVar();
 window.addEventListener('resize', setViewportHeightVar);
 window.addEventListener('orientationchange', setViewportHeightVar);
 
-/* ------------------------------------------------------------
-   BOTTOM FADE OVERLAY
-   Always transparent at the top, always visibly dark at the
-   bottom. Scrolling deepens the fade slightly but it is capped
-   at OVERLAY_MAX so it can never become a solid black screen.
------------------------------------------------------------- */
 const overlay = document.getElementById('overlay');
-const OVERLAY_BASE = 0.55; // bottom darkness at rest (scrollY = 0)
-const OVERLAY_MAX  = 0.88; // hard cap — never fully opaque
+const OVERLAY_BASE = 0.55; 
+const OVERLAY_MAX  = 0.88; 
 let ticking = false;
 
 function updateOverlay() {
@@ -632,9 +599,6 @@ document.getElementById('shareBtn').addEventListener('click', () => {
   menuPopup.classList.remove('open');
 });
 
-/* ------------------------------------------------------------
-   BUTTON REVEAL-ON-SCROLL
------------------------------------------------------------- */
 const cards = document.querySelectorAll(".link-btn");
 
 const observer = new IntersectionObserver((entries) => {
